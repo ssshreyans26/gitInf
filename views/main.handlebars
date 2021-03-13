@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>GitHub API</title>
+  <meta name="description" content="Github OAuth.">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <header>
+    <h1>Github API Data</h1>
+    <p>Assignment by - Shreyans</p>
+  </header>
+
+  <main>
+
+    {{#if session}}
+    <p>
+      You are now logged in.
+    </p>
+    <p>
+      <a href="/logoff">Sign out</a>
+    </p>
+    {{else}}
+    <a class="container" href="/auth/github">Log-in with GitHub</a>
+    {{/if}}
+
+
+    {{#if repos}}
+    <h2>{{session.user.name}}'s Repositories</h2>
+
+    <ul class="collapsible" id="infinite-list" style="overflow: auto; width: 90%;height: 300px;">
+      
+        {{#each repos}}
+
+        <li class="post">{{full_name}} -- owned by {{owner.login}}</li>
+        {{/each}}
+    
+    </ul>
+    {{/if}}
+  </main>
+
+
+  <script>
+    const items = document.getElementById('infinite-list').children
+    var main = document.getElementById('infinite-list');
+    console.log(main)
+    console.log(items)
+    var loadMore = function () {
+      for (var i = 0; i < items.length; i++) {
+        //console.log(items)
+        console.log("added child")
+        main.appendChild(items[i]);
+      }
+        //alert("appended")
+    }
+
+    var more = document.getElementById('items');
+    // this is the scroll event handler
+    // print relevant scroll info
+    //document.querySelector("body").style.height = "2000px";
+
+    main.addEventListener('scroll', function () {
+      if (main.scrollTop + main.clientHeight >= main.scrollHeight){
+        loadMore();
+      }
+    });
+
+
+  </script>
+</body>
+
+</html>
